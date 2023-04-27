@@ -292,10 +292,15 @@ int main(int argc, char ** argv) {
                 if (n_eval > params.n_batch) {
                     n_eval = params.n_batch;
                 }
+                int64_t start = ggml_time_us();
                 if (llama_eval(ctx, &embd[i], n_eval, n_past, params.n_threads)) {
                     fprintf(stderr, "%s : failed to eval\n", __func__);
                     return 1;
                 }
+
+                // do something...
+                int64_t end   = ggml_time_us();
+                std::cout << "\n 1 token spend " << (double)(end - start) / 1e3 << "ms" << std::endl;
                 n_past += n_eval;
             }
         }

@@ -33,6 +33,8 @@ extern "C" {
     // TODO: show sample usage
     //
 
+    extern int64_t ggml_time_us(void);
+
     struct llama_context;
 
     typedef int llama_token;

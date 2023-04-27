@@ -10766,6 +10766,8 @@ static thread_ret_t ggml_graph_compute_thread(void * data) {
 void ggml_graph_compute(struct ggml_context * ctx, struct ggml_cgraph * cgraph) {
     const int n_threads = cgraph->n_threads;
 
+    int64_t compute_sum_time = 0;
+
     struct ggml_compute_state_shared state_shared = {
         /*.spin      =*/ GGML_LOCK_INITIALIZER,
         /*.n_threads =*/ n_threads,
@@ -11087,6 +11089,7 @@ void ggml_graph_compute(struct ggml_context * ctx, struct ggml_cgraph * cgraph) 
             atomic_store(&state_shared.has_work, true);
         }
 
+        int64_t compute_begin = ggml_time_us();
         params.type = GGML_TASK_COMPUTE;
         ggml_compute_forward(&params, node);
 
@@ -11108,6 +11111,11 @@ void ggml_graph_compute(struct ggml_context * ctx, struct ggml_cgraph * cgraph) 
                 ggml_lock_unlock(&state_shared.spin);
             }
         }
+        int64_t compute_end = ggml_time_us();
+        printf("compute %d layer type = %d, time = %lld ms \n", i, node->op, (compute_end-compute_begin)/1000);
+        compute_sum_time += (compute_end-compute_begin);
+
+        printf("compute_sum_time = %lld ms \n", compute_sum_time);
 
         // FINALIZE
         if (node->n_tasks > 1) {

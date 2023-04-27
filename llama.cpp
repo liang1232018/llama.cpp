@@ -28,6 +28,7 @@
 #include <atomic>
 #include <mutex>
 #include <sstream>
+#include <iostream>
 
 #define LLAMA_USE_SCRATCH
 #define LLAMA_MAX_SCRATCH_BUFFERS 16
