@@ -2372,3 +2372,16 @@ size_t llama_set_state_data(struct llama_context * ctx, const uint8_t * src) {
     LLAMA_ASSERT(nread == expected);
     return nread;
 }
+
+
+void print_log(char* file, char* output, char* mode) {
+
+    FILE *fp=  fopen(file, mode);
+    if (fp == NULL) {
+      printf("Error opening file\n");
+      return ;
+   }
+
+    fprintf(fp, "%s", output); // 写入数据到文件
+    fclose(fp); // 关闭文件
+}

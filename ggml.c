@@ -11112,10 +11112,13 @@ void ggml_graph_compute(struct ggml_context * ctx, struct ggml_cgraph * cgraph) 
             }
         }
         int64_t compute_end = ggml_time_us();
-        printf("compute %d layer type = %d, time = %lld ms \n", i, node->op, (compute_end-compute_begin)/1000);
-        compute_sum_time += (compute_end-compute_begin);
+        // printf("compute %d layer type = %d, time = %lld ms \n", i, node->op, (compute_end-compute_begin)/1000);
+        char output_ptr[100];
+        snprintf(output_ptr, 100, "compute %d layer type = %d, time = %lf ms \n", i, node->op, (double)(compute_end-compute_begin)/1000);
+        print_log("op_latency_t8.txt", output_ptr, "a+");
+        // compute_sum_time += (compute_end-compute_begin);
 
-        printf("compute_sum_time = %lld ms \n", compute_sum_time);
+        // printf("compute_sum_time = %lld ms \n", compute_sum_time);
 
         // FINALIZE
         if (node->n_tasks > 1) {

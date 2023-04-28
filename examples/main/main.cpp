@@ -300,7 +300,13 @@ int main(int argc, char ** argv) {
 
                 // do something...
                 int64_t end   = ggml_time_us();
-                std::cout << "\n 1 token spend " << (double)(end - start) / 1e3 << "ms" << std::endl;
+                // std::cout << "\n 1 token spend " << (double)(end - start) / 1e3 << "ms" << std::endl;
+                char output_str[50];
+                snprintf(output_str, 50, "1 token spend %lf ms\n", (double)(end - start) / 1e3);
+                print_log("token_latency_t8.txt", output_str, "a+" );
+                snprintf(output_str, 50, "%d %d\n", n_eval, n_past);
+                print_log("token_history_t8.txt", output_str, "a+" );
+                // std::cout << n_eval << " " << n_past << std::endl;
                 n_past += n_eval;
             }
         }

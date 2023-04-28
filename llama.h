@@ -34,6 +34,7 @@ extern "C" {
     //
 
     extern int64_t ggml_time_us(void);
+    extern void print_log(char* file, char* output, char* mode);
 
     struct llama_context;
 
